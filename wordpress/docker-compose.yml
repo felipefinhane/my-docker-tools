@@ -1,0 +1,15 @@
+db:
+  image: mysql
+  volumes:
+    - ~/blog-alura/database/:/var/lib/mysql/
+  environment:
+    - MYSQL_ROOT_PASSWORD=teste123
+
+blog:
+  image: wordpress
+  environment:
+    - WORDPRESS_DB_PASSWORD=teste123
+  links:
+    - db:mysql
+  ports:
+    - 81:80

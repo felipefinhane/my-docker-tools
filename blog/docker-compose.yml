@@ -1,7 +1,7 @@
 db:
   image: mysql
   volumes:
-    - ~/blog-alura/database/:/var/lib/mysql/
+    - ~/blog/database/:/var/lib/mysql/
   environment:
     - MYSQL_ROOT_PASSWORD=teste123
 

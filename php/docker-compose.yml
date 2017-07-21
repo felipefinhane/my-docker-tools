@@ -1,0 +1,22 @@
+###########################
+# PHP Container
+###########################
+php:
+  build: ./php
+  ports:
+   - "80:80"
+   - "443:443"
+  volumes:
+   - ./www:/var/www/html/
+  links:
+   - db
+###########################
+# Database Container (MySQL)
+###########################
+db:
+  build: ./mysql
+  volumes:
+   - /var/lib/mysql/
+  environment:
+   - MYSQL_ROOT_PASSWORD=toor
+   - MYSQL_DATABASE=local

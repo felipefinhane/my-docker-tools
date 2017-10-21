@@ -1,0 +1,25 @@
+version: '3'
+services:
+    app:
+        image: hermeto/app-pdo:php-7.0-apache
+        container_name: app-pdo
+        ports:
+            - "80:80"
+            - "433:443"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - "db"
+        networks:
+            - "network"
+    db:
+        image: mariadb:latest
+        container_name: app-pdo-db
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=local
+        networks:
+            - "network"
+networks:
+    network:
+        driver: bridge

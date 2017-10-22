@@ -1,0 +1,26 @@
+version: "3"
+services:
+    app:
+        image: "hermeto/opfox:1.0"
+        container_name: "gestorfox"
+        networks:
+            - "network"
+        volumes:
+            - ".:/var/www/html"
+        ports:
+            - "80:80"
+        depends_on:
+            - "db"
+    db:
+        image: "mysql:5.6"
+        container_name: "gestorfox-db"
+        networks:
+            - "network"
+        volumes:
+            - "/dev/shm/mysql:/var/lib/mysql"
+        environment:
+            - "MYSQL_ROOT_PASSWORD=chayote"
+            - "MYSQL_DATABASE=vegetables"
+networks:
+    network:
+        driver: "bridge"

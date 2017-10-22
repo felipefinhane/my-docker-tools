@@ -1,22 +1,16 @@
-###########################
-# PHP Container
-###########################
 php:
-  build: ./php
+  build: "./php"
   ports:
    - "80:80"
    - "443:443"
   volumes:
-   - ./www:/var/www/html/
+   - "./www:/var/www/html/"
   links:
-   - db
-###########################
-# Database Container (MySQL)
-###########################
+   - "db"
 db:
-  build: ./mysql
+  build: "./mysql"
   volumes:
-   - /var/lib/mysql/
+   - "/var/lib/mysql/"
   environment:
-   - MYSQL_ROOT_PASSWORD=toor
-   - MYSQL_DATABASE=local
+   - "MYSQL_ROOT_PASSWORD=chayote"
+   - "MYSQL_DATABASE=vegetables"

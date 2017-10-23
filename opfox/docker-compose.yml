@@ -2,7 +2,7 @@ version: "3"
 services:
     app:
         image: "hermeto/opfox:1.0"
-        container_name: "gestorfox"
+        container_name: "app"
         networks:
             - "network"
         volumes:
@@ -12,8 +12,8 @@ services:
         depends_on:
             - "db"
     db:
-        image: "mysql:5.6"
-        container_name: "gestorfox-db"
+        image: "hermeto/opfox-db:1.0"
+        container_name: "app-db"
         networks:
             - "network"
         volumes:

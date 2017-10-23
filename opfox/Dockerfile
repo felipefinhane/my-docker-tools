@@ -22,6 +22,9 @@ RUN apt-get install libxml2-dev libcurl3-dev libfreetype6-dev libjpeg62-turbo-de
 # install mysql pdo
 RUN docker-php-ext-install pdo_mysql
 
+# install mysqli
+RUN docker-php-ext-install mysqli
+
 # install dg
 RUN docker-php-ext-install gd 
 

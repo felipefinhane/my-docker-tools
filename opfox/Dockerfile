@@ -4,6 +4,9 @@ FROM php:5.6-apache
 # copy default conf file with diferent publication path
 COPY 000-default.conf /etc/apache2/sites-available
 
+# copy composer 
+COPY composer.phar /usr/local/bin/composer
+
 # enable rewrite mod
 RUN a2enmod rewrite
 
@@ -14,7 +17,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 # install libs
-RUN apt-get install libxml2-dev libcurl3-dev libfreetype6-dev libjpeg62-turbo-dev -y 
+RUN apt-get install libxml2-dev libcurl3-dev libfreetype6-dev libjpeg62-turbo-dev git -y 
 
 # install mysql pdo
 RUN docker-php-ext-install pdo_mysql

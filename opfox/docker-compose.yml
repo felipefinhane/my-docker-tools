@@ -1,26 +1,74 @@
 version: "3"
+
 services:
-    app:
-        image: "hermeto/opfox:1.0"
-        container_name: "app"
+     
+    erp:
+        container_name: "erp"
+        image: "hermeto/opfox:latest"
         networks:
-            - "network"
+            network:
+                ipv4_address: "172.10.0.2"
         volumes:
-            - ".:/var/www/html"
-        ports:
-            - "80:80"
+            - "./erp:/var/www/html"
         depends_on:
-            - "db"
-    db:
-        image: "hermeto/opfox-db:1.0"
-        container_name: "app-db"
+            - "erp-database"
+        links:
+            - "erp-webservice"
+
+    erp-webservice:
+        container_name: "erp-webservice"
+        image: "hermeto/opfox:latest"
         networks:
-            - "network"
+            network:
+                ipv4_address: "172.10.0.3"
         volumes:
-            - "/dev/shm/mysql:/var/lib/mysql"
+            - "./erp-webservice:/var/www/html"
+        depends_on:
+            - "erp-database"
+
+    erp-database:
+        container_name: "erp-database"
+        image: "mysql:5.6"
+        networks:
+            network:
+                ipv4_address: "172.10.0.4"
+        volumes:
+            - "/dev/shm/mysql/erp:/var/lib/mysql"
         environment:
-            - "MYSQL_ROOT_PASSWORD=chayote"
-            - "MYSQL_DATABASE=vegetables"
+            - "MYSQL_ROOT_PASSWORD=chuchu"
+            - "MYSQL_DATABASE=db_d_erp"
+
+    ecommerce:
+        container_name: "ecommerce"
+        image: "hermeto/opfox-sass:latest"
+        networks:
+            network:
+                ipv4_address: "172.10.0.5"
+        volumes:
+            - "./ecommerce:/var/www/html"
+            - "./ecommerce-db-data:/home/ecommerce-db-data"
+            - "./ecommerce-deploy:/home/ecommerce-deploy"
+        depends_on:
+            - "ecommerce-database"
+        links:
+            - "erp-webservice"
+        command: bash -c "docker-php-entrypoint apache2-foreground; sass public/assets/standard/scss/standard.scss public/assets/standard/compiled_scss/standard.css --no-cache"
+       
+
+    ecommerce-database:
+        container_name: "ecommerce-database"
+        image: "mysql:5.6"
+        networks:
+            network:
+                ipv4_address: "172.10.0.6"
+        volumes:
+            - "/dev/shm/mysql/ecommerce:/var/lib/mysql"
+        environment:
+            - "MYSQL_ROOT_PASSWORD=chuchu"
+
 networks:
     network:
         driver: "bridge"
+        ipam:
+            config:
+                - subnet: "172.10.0.0/16"

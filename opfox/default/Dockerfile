@@ -21,3 +21,9 @@ RUN a2enmod rewrite; \
     echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini; \
     echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini; \
     echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+# Install Wkhtmltopdf
+ADD https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.2.1/wkhtmltox-0.12.2.1_linux-jessie-amd64.deb /tmp/wkhtmltox-0.12.2.1_linux-jessie-amd64.deb
+RUN DEBIAN_FRONTEND="noninteractive" chmod a+x /tmp/wkhtmltox-0.12.2.1_linux-jessie-amd64.deb \
+	&& dpkg --install /tmp/wkhtmltox-0.12.2.1_linux-jessie-amd64.deb|| true \
+	&& apt-get -y --force-yes -f install
